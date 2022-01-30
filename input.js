@@ -17,7 +17,8 @@ window.addEventListener('keydown', e => {
             break
         case 'ArrowRight':
             if(lastInputDirection.x!== 0) break;
-            inputDirection = { x:1, y:0 } 
+            inputDirection = { x:1, y:0 }
+            break 
     }
 })
 
