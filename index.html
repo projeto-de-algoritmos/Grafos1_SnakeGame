@@ -15,7 +15,6 @@
       margin: 0;
       background-color: #c8a2c8;
     }
-
     #game-board {
       background-color: #e1d6f6;
       width: 95vmin;
@@ -25,7 +24,16 @@
       grid-template-columns: repeat(21, 1fr);
 
     }
+    .snake {
+      background-color: black;
+      border: .25vmin solid blue;
+    }
+    .food {
+      background-color: yellow;
+      border: .25vmin solid blue;
+    }
   </style>
+  <script src="game.js" defer type="module"></script>
 </head>
 <body>
   <div id="game-board"></div>
