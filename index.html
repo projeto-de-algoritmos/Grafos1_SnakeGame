@@ -1,40 +1,37 @@
+<head>
+  <title>Simple Snake Game</title>
+  <meta name=viewport content="width=device-width, initial-scale=1">
 
-<head><title>Simple Snake Game</title>
-<meta name=viewport content="width=device-width, initial-scale=1">
+  <nav >
+    <a  style="margin-left: 40%;" ><strong> Snake-Game baseado no algoritmo BFS </strong></a>
+  </nav>
+  <script src="snake.js"></script>
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
+    ga('create', 'UA-27120534-1', 'auto');
+    ga('send', 'pageview');
 
-<script src="snake.js"></script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-27120534-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
+  </script>
 </head>
 
 
 <body onload="init();">
-<input type="button" class="btn btn-success" style="width: 7.5%" value="Start" onclick="start();">&nbsp;&nbsp;
-<input type="button" class="btn btn-danger" style="width: 7.5%" value="Stop" onclick="stop();">&nbsp;&nbsp;
-<input type="button" class="btn btn-success" style="width: 8%" value="Resume" onclick="resume();">&nbsp;&nbsp;<br><br>
-<div style="width: 33.2%" onchange="change_search();"></div>
+  <input type="button"  style="width: 7.5%" value="Start" onclick="start();">
+  <input type="button"  style="width: 7.5%" value="Stop" onclick="stop();">
+  <input type="button"  style="width: 8%" value="Resume" onclick="resume();"><br><br>
+  <div style="width: 33.2%" onchange="change_search();"></div>
 
-<br>
-<div class="pokar">
-  <canvas id="canvas" width="500" height="500"></canvas>
-<div id="stats" style="float:right;width:300px;">
-<h1><strong>Food Eaten: <span id="food_val"></span></strong></h1>
-<h1><strong>Moves: <span id="moves_val"></span></strong></h1>
-<h1><strong>Average Moves: <span id="avg_moves_val"></span></strong></h1>
-<h1><strong>Average Nodes Processed: <span id="avg_nodes_val"></span></strong></h1>
-</div>
-</div>
-<!-- Latest compiled and minified JavaScript -->
+  <br>
+  <div>
+    <canvas id="canvas" width="500" height="500" style="margin-left: 30%;"></canvas>
+  </div>
 
 </body>
-</html>
 
+</html>

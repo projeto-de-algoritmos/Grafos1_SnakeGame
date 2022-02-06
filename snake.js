@@ -28,16 +28,13 @@ function refresh_view(data) {
     if (data.stats.food >= 50)
         stop();
     //gerar algumas estatísticas sobre nosso desempenho
-    document.getElementById('moves_val').innerHTML = data.stats.moves;
-    document.getElementById('food_val').innerHTML = data.stats.food;
-    document.getElementById('avg_moves_val').innerHTML = data.stats.moves / (data.stats.food);
-    document.getElementById('avg_nodes_val').innerHTML = data.stats.count / (data.stats.food);
+    
     //desenhe os quadrados, cor com base no tipo de quadrado
     for (var i = 0; i < config.grid_size; i++) {
         for (var j = 0; j < config.grid_size; j++) {
             switch (data.squares[i][j]) {
                 case 0:
-                    //empty
+                    //vazio
                     ctx.fillStyle = "#e1d6f6";
                     ctx.beginPath();
                     ctx.rect(i * config.square_size, j * config.square_size, config.square_size - 1, config.square_size - 1);
