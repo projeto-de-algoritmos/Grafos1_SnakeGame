@@ -1,8 +1,8 @@
 
-//the canvas used to draw the state of the game
+//tela usada para desenhar o estado do jogo
 var ctx;
 
-//config object used to set the parameters of the game. This object is passed to the worker thread to initialize it
+//Algumas variaveis usado para definir os parâmetros do jogo. 
 var config = new Object();
 config.grid_size = 20;
 config.number_obstacles = 12;
@@ -13,26 +13,26 @@ config.runTimeout = 0;
 
 function init() {
     ctx = document.getElementById('canvas').getContext("2d");
-    //tell the worker to set itself up
+    //diga ao worker para se estabelecer
     var message = new Object();
     message.do = 'init';
     message.config = config;
     worker.postMessage(message);
-    change_search();
+    
 }
 
-//Redraw the screen based on the state of the game, which is passed from the worker
+//Redesenhe a tela com base no estado do jogo, que é passado do worker
 function refresh_view(data) {
-    //stop when we reach 100, this is so we have consistent sample sizes
+    //parar quando chegarmos a 50
     console.log(data);
-    if (data.stats.food >= 100)
+    if (data.stats.food >= 50)
         stop();
-    //output some stats about our performance
+    //gerar algumas estatísticas sobre nosso desempenho
     document.getElementById('moves_val').innerHTML = data.stats.moves;
     document.getElementById('food_val').innerHTML = data.stats.food;
     document.getElementById('avg_moves_val').innerHTML = data.stats.moves / (data.stats.food);
     document.getElementById('avg_nodes_val').innerHTML = data.stats.count / (data.stats.food);
-    //draw the squares, color based on what type of square
+    //desenhe os quadrados, cor com base no tipo de quadrado
     for (var i = 0; i < config.grid_size; i++) {
         for (var j = 0; j < config.grid_size; j++) {
             switch (data.squares[i][j]) {
@@ -51,7 +51,7 @@ function refresh_view(data) {
                     ctx.strokeStyle = "#c8a2c8";
                     break;
                 case 1:
-                    //path
+                    //caminho
                     ctx.fillStyle = "#c8a2c8";
                     ctx.beginPath();
                     ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
@@ -59,7 +59,7 @@ function refresh_view(data) {
                     ctx.fill();
                     break;
                 case 3:
-                    //wall
+                    //parede
                     ctx.fillStyle = "#c8a2c8";
                     ctx.beginPath();
                     ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
@@ -67,7 +67,7 @@ function refresh_view(data) {
                     ctx.fill();
                     break;
                 case 2:
-                    //food
+                    //comida
                     ctx.fillStyle = "red";
                     ctx.beginPath();
                     ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
@@ -75,7 +75,7 @@ function refresh_view(data) {
                     ctx.fill();
                     break;
                 case 4:
-                    //obstacle
+                    //obstaculo
                     ctx.fillStyle = "#0000A0";
                     ctx.beginPath();
                     ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
@@ -84,7 +84,7 @@ function refresh_view(data) {
                     break;
                 default:
                     if (data.squares[i][j] == 5) {
-                        //head
+                        //cabeca
                         ctx.fillStyle = "blueviolet";
                         ctx.beginPath();
                         ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
@@ -92,9 +92,8 @@ function refresh_view(data) {
                         ctx.fill();
                         break;
                     }
-                    //  if(data.squares[i][j] == 5+config.snake_length-1){
                     if (data.squares[i][j] == 10) {
-                        //tail
+                        //cauda
                         ctx.fillStyle = "#0000A0";
                         ctx.beginPath();
                         ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
@@ -102,7 +101,7 @@ function refresh_view(data) {
                         ctx.fill();
                         break;
                     }
-                    //body
+                    //corpo
                     ctx.fillStyle = "blueviolet";
                     ctx.beginPath();
                     ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
@@ -114,54 +113,40 @@ function refresh_view(data) {
     }
 }
 
-//create a web worker that will do the processing
+//crie um worker que fará o processamento
 var worker = new Worker("grid.js");
 
-//when the worker sends a message, act on it.
+//quando o worker enviar uma mensagem, aja de acordo com ela.
 worker.onmessage = function (event) {
-    //if it's a move, then redraw the screen based on the state passed
+    //se for um movimento, redesenhe a tela com base no estado passado
     if (event.data.type == 'move')
         refresh_view(event.data);
     else
         console.log(event.data);
-    //otherwise, it's an error, send it to the console so we can see it in firebug
+    //caso contrário, é um erro, envie para o console para que possamos ver no firebug
 };
 
-//if the worker reports an error, log it in firebug
+//se o worker relatar um erro, registre-o no firebug
 worker.onerror = function (error) {
     console.log(error.message);
 };
 
-//sends a start message to the worker. The worker will begin processing until it's told to stop.
+//envia uma mensagem de início ao worker. O trabalhador começará a processar até que seja instruído a parar.
 function start() {
     var message = new Object();
     message.do = 'start';
     worker.postMessage(message);
 }
 
-//stop the worker. It will be 'paused' and wait until it's told to start again. State will be maintained
+//parar o worker. Ele será 'pausado' e esperará até que seja dito para começar novamente. Estado será mantido
 function stop() {
     var message = new Object();
     message.do = 'stop';
     worker.postMessage(message);
 }
 
-function pause() {
-    var message = new Object();
-    message.do = 'pause';
-    worker.postMessage(message);
-}
-
 function resume() {
     var message = new Object();
     message.do = 'resume';
-    worker.postMessage(message);
-}
-
-//update the type of search we want the worker to use.
-function change_search() {
-    var message = new Object();
-    message.do = 'set_search';
-    message.search = document.getElementById('search').value;
     worker.postMessage(message);
 }

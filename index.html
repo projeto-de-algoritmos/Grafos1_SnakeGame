@@ -18,19 +18,19 @@
 
 
 <body onload="init();">
-<input type="button"  style="width: 7.5%" value="Start" onclick="start();">&nbsp;&nbsp;
-<input type="button" style="width: 7.5%" value="Stop" onclick="stop();">&nbsp;&nbsp;
-<input type="button" style="width: 8%" value="Resume" onclick="resume();">&nbsp;&nbsp;<br><br>
+<input type="button" class="btn btn-success" style="width: 7.5%" value="Start" onclick="start();">&nbsp;&nbsp;
+<input type="button" class="btn btn-danger" style="width: 7.5%" value="Stop" onclick="stop();">&nbsp;&nbsp;
+<input type="button" class="btn btn-success" style="width: 8%" value="Resume" onclick="resume();">&nbsp;&nbsp;<br><br>
 <div style="width: 33.2%" onchange="change_search();"></div>
 
 <br>
 <div class="pokar">
   <canvas id="canvas" width="500" height="500"></canvas>
 <div id="stats" style="float:right;width:300px;">
-<h1><strong>Food Eaten: <span ></span></strong></h1>
-<h1><strong>Moves: <span ></span></strong></h1>
-<h1><strong>Average Moves: <span ></span></strong></h1>
-<h1><strong>Average Nodes Processed: <span></span></strong></h1>
+<h1><strong>Food Eaten: <span id="food_val"></span></strong></h1>
+<h1><strong>Moves: <span id="moves_val"></span></strong></h1>
+<h1><strong>Average Moves: <span id="avg_moves_val"></span></strong></h1>
+<h1><strong>Average Nodes Processed: <span id="avg_nodes_val"></span></strong></h1>
 </div>
 </div>
 <!-- Latest compiled and minified JavaScript -->
