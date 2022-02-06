@@ -1,42 +1,40 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Snake</title>
-  <style>
-    body {
-      height: 100vh;
-      width: 100vw;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0;
-      background-color: #c8a2c8;
-    }
-    #game-board {
-      background-color: #e1d6f6;
-      width: 95vmin;
-      height: 80vmin;
-      display: grid;
-      grid-template-rows: repeat(21, 1fr);
-      grid-template-columns: repeat(21, 1fr);
 
-    }
-    .snake {
-      background-color: blueviolet;
-      border: .25vmin solid blue;
+<head><title>Simple Snake Game</title>
+<meta name=viewport content="width=device-width, initial-scale=1">
 
-    }
-    .food {
-      background-color: red;
-      border: .25vmin solid blue;
-    }
-  </style>
-  <script src="game.js" defer type="module"></script>
+
+<script src="snake.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-27120534-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </head>
-<body>
-  <div id="game-board"></div>
+
+
+<body onload="init();">
+<input type="button"  style="width: 7.5%" value="Start" onclick="start();">&nbsp;&nbsp;
+<input type="button" style="width: 7.5%" value="Stop" onclick="stop();">&nbsp;&nbsp;
+<input type="button" style="width: 8%" value="Resume" onclick="resume();">&nbsp;&nbsp;<br><br>
+<div style="width: 33.2%" onchange="change_search();"></div>
+
+<br>
+<div class="pokar">
+  <canvas id="canvas" width="500" height="500"></canvas>
+<div id="stats" style="float:right;width:300px;">
+<h1><strong>Food Eaten: <span ></span></strong></h1>
+<h1><strong>Moves: <span ></span></strong></h1>
+<h1><strong>Average Moves: <span ></span></strong></h1>
+<h1><strong>Average Nodes Processed: <span></span></strong></h1>
+</div>
+</div>
+<!-- Latest compiled and minified JavaScript -->
+
 </body>
 </html>
+

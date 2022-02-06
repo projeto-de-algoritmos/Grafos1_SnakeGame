@@ -1,45 +1,167 @@
-import { getInputDirection } from "./input.js"
 
-export const SNAKE_SPEED=4
-const snakeBody = [{x: 11, y: 11}]
-let newSegments = 0
+//the canvas used to draw the state of the game
+var ctx;
 
-export function update(){
-    addSegments()
-    const inputDirection = getInputDirection()
-    for(let i=snakeBody.length -2; i>=0; i--){
-        snakeBody[i + 1] = {...snakeBody[i]}
+//config object used to set the parameters of the game. This object is passed to the worker thread to initialize it
+var config = new Object();
+config.grid_size = 20;
+config.number_obstacles = 12;
+config.square_size = 25;
+config.snake_length = 5;
+config.search = 'BFS';
+config.runTimeout = 0;
+
+function init() {
+    ctx = document.getElementById('canvas').getContext("2d");
+    //tell the worker to set itself up
+    var message = new Object();
+    message.do = 'init';
+    message.config = config;
+    worker.postMessage(message);
+    change_search();
+}
+
+//Redraw the screen based on the state of the game, which is passed from the worker
+function refresh_view(data) {
+    //stop when we reach 100, this is so we have consistent sample sizes
+    console.log(data);
+    if (data.stats.food >= 100)
+        stop();
+    //output some stats about our performance
+    document.getElementById('moves_val').innerHTML = data.stats.moves;
+    document.getElementById('food_val').innerHTML = data.stats.food;
+    document.getElementById('avg_moves_val').innerHTML = data.stats.moves / (data.stats.food);
+    document.getElementById('avg_nodes_val').innerHTML = data.stats.count / (data.stats.food);
+    //draw the squares, color based on what type of square
+    for (var i = 0; i < config.grid_size; i++) {
+        for (var j = 0; j < config.grid_size; j++) {
+            switch (data.squares[i][j]) {
+                case 0:
+                    //empty
+                    ctx.fillStyle = "#e1d6f6";
+                    ctx.beginPath();
+                    ctx.rect(i * config.square_size, j * config.square_size, config.square_size - 1, config.square_size - 1);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
+                    ctx.closePath();
+                    ctx.fillStyle = "#c8a2c8";
+                    ctx.stroke();
+                    ctx.strokeStyle = "#c8a2c8";
+                    break;
+                case 1:
+                    //path
+                    ctx.fillStyle = "#c8a2c8";
+                    ctx.beginPath();
+                    ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
+                    ctx.closePath();
+                    ctx.fill();
+                    break;
+                case 3:
+                    //wall
+                    ctx.fillStyle = "#c8a2c8";
+                    ctx.beginPath();
+                    ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
+                    ctx.closePath();
+                    ctx.fill();
+                    break;
+                case 2:
+                    //food
+                    ctx.fillStyle = "red";
+                    ctx.beginPath();
+                    ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
+                    ctx.closePath();
+                    ctx.fill();
+                    break;
+                case 4:
+                    //obstacle
+                    ctx.fillStyle = "#0000A0";
+                    ctx.beginPath();
+                    ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
+                    ctx.closePath();
+                    ctx.fill();
+                    break;
+                default:
+                    if (data.squares[i][j] == 5) {
+                        //head
+                        ctx.fillStyle = "blueviolet";
+                        ctx.beginPath();
+                        ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
+                        ctx.closePath();
+                        ctx.fill();
+                        break;
+                    }
+                    //  if(data.squares[i][j] == 5+config.snake_length-1){
+                    if (data.squares[i][j] == 10) {
+                        //tail
+                        ctx.fillStyle = "#0000A0";
+                        ctx.beginPath();
+                        ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
+                        ctx.closePath();
+                        ctx.fill();
+                        break;
+                    }
+                    //body
+                    ctx.fillStyle = "blueviolet";
+                    ctx.beginPath();
+                    ctx.rect(i * config.square_size, j * config.square_size, config.square_size, config.square_size);
+                    ctx.closePath();
+                    ctx.fill();
+                    break;
+            }
+        }
     }
-    snakeBody[0].x += inputDirection.x
-    snakeBody[0].y += inputDirection.y
-}
-export function draw(gameBoard){
-    snakeBody.forEach(segment => {
-        const snakeElement = document.createElement('div')
-        snakeElement.style.gridRowStart = segment.y
-        snakeElement.style.gridColumnStart = segment.x
-        snakeElement.classList.add('snake')
-        gameBoard.appendChild(snakeElement)
-    })
-}
-export function expandSnake(amount){
-    newSegments += amount
 }
 
-export function onSnake(position){
-    return snakeBody.some(segment => {
-        return equalPositions(segment, position)
-    })
+//create a web worker that will do the processing
+var worker = new Worker("grid.js");
+
+//when the worker sends a message, act on it.
+worker.onmessage = function (event) {
+    //if it's a move, then redraw the screen based on the state passed
+    if (event.data.type == 'move')
+        refresh_view(event.data);
+    else
+        console.log(event.data);
+    //otherwise, it's an error, send it to the console so we can see it in firebug
+};
+
+//if the worker reports an error, log it in firebug
+worker.onerror = function (error) {
+    console.log(error.message);
+};
+
+//sends a start message to the worker. The worker will begin processing until it's told to stop.
+function start() {
+    var message = new Object();
+    message.do = 'start';
+    worker.postMessage(message);
 }
 
-function equalPositions(pos1, pos2){
-    return pos1.x === pos2.x && pos1.y == pos2.y
+//stop the worker. It will be 'paused' and wait until it's told to start again. State will be maintained
+function stop() {
+    var message = new Object();
+    message.do = 'stop';
+    worker.postMessage(message);
 }
 
-function addSegments(){
-    for(let i = 0; i< newSegments; i++){
-        snakeBody.push({...snakeBody[snakeBody.length - 1]})
-    }
+function pause() {
+    var message = new Object();
+    message.do = 'pause';
+    worker.postMessage(message);
+}
 
-    newSegments = 0;
+function resume() {
+    var message = new Object();
+    message.do = 'resume';
+    worker.postMessage(message);
+}
+
+//update the type of search we want the worker to use.
+function change_search() {
+    var message = new Object();
+    message.do = 'set_search';
+    message.search = document.getElementById('search').value;
+    worker.postMessage(message);
 }

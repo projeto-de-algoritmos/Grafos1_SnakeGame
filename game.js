@@ -1,30 +1,4 @@
-import {SNAKE_SPEED, update as updateSnake, draw as drawSnake} from './snake.js'
-import {update as updateFood, draw as drawFood} from './food.js'
+var points = [40, 100, 1, 5, 25, 10];
 
-let lastRenderTime=0
-const gameBoard = document.getElementById('game-board')
-
-function main(currentTime){
-    window.requestAnimationFrame(main)
-    const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000
-    if(secondsSinceLastRender < 1 / SNAKE_SPEED) return 
-
-    console.log(secondsSinceLastRender)
-    lastRenderTime = currentTime
-
-    update()
-    draw()
-}
-
-window.requestAnimationFrame(main)
-
-function update(){
-    updateSnake()
-    updateFood()
-}
-
-function draw(){
-    gameBoard.innerHTML = ''
-    drawSnake(gameBoard)
-    drawFood(gameBoard)
-}
+points.sort(function(a,b){return a-b});
+console.log(points);
