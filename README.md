@@ -1,20 +1,6 @@
-**!! Atenção: Renomeie o seu repositório para (Tema)_(NomeDoProjeto). !!** 
-
-Temas:
- - Grafos1
- - Grafos2
- - PD
- - D&C
- - Greed
- - Final 
- 
- **!! *Não coloque os nomes dos alunos no título do repositório*. Exemplo de título correto: Grafos2_Labirinto-do-Minotauro !!**
- 
- (Apague essa seção)
-
 # Snake Game
 
-**Número da Lista**: X<br>
+**Número da Lista**: 1<br>
 **Conteúdo da Disciplina**: Grafos 1<br>
 
 ## Alunos
@@ -24,21 +10,28 @@ Temas:
 | 18/0113992  |  Lorrany Oliveira Souza |
 
 ## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+O projeto é um jogo da cobra, que tem como objetivo demostrar o funcionamento de um grafo. No caso, o grafo que foi utilizado neste projeto foi o BFS. O qual ajuda a cobra na busca por comida. 
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+![imagem 1](/imagens/imagem1.png)
+A primeira imagem o jogo se iniciando, quando você seleciona o botão start, ele irá começar andar automaticamente até a comida.
+![imagem 2](/imagens/imagem3.png)
+Esta segunda imagem, demostra o que acontece quando o botão stop é selecionado, ou seja, o jogo para.
+![imagem 3](/imagens/imagem2.png)
+Nesta terceira imagem, demostra o que acontece quando o botão resume é selecionado, ou seja, a cobra volta a andar do local onde parou.
 
 ## Instalação 
-**Linguagem**: javascrpt, html<br>
+**Linguagem**: javascript, html<br>
 **Framework**: (caso exista)<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
 
 ## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
-
-## Outros 
-Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
+Para conseguir rodar este projeto, siga os passos abaixo: 
+#### 1- instalação do node.
+#### 2- instalação de um http server. Para sua instalação, siga o tutorial presente nesta página: <https://www.npmjs.com/package/http-server>
+#### 3- Clone esse repositório.
+#### 4- Entre no projeto pelo terminal, e digite o seguinte comando: 
+#### **http-server -c-1**
+#### 5- Abra o link que irá aparecer no terminal.
 
 
 
