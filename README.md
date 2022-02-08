@@ -20,6 +20,10 @@ Esta segunda imagem, demostra o que acontece quando o botão stop é selecionado
 ![imagem 3](/imagens/imagem2.png)
 Nesta terceira imagem, demostra o que acontece quando o botão resume é selecionado, ou seja, a cobra volta a andar do local onde parou.
 
+## Apresentação do projeto
+[Video de apresentação do projeto Snake Game](https://www.youtube.com/watch?v=aY3HyRh1LmI&feature=youtu.be)
+
+
 ## Instalação 
 **Linguagem**: javascript, html<br>
 **Framework**: (caso exista)<br>
