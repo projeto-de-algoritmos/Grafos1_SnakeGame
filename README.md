@@ -22,7 +22,7 @@ Nesta terceira imagem, demostra o que acontece quando o botão resume é selecio
 
 ## Apresentação do projeto
 #### 1- [Video de apresentação do projeto Snake Game via youtube](https://www.youtube.com/watch?v=aY3HyRh1LmI&feature=youtu.be)
-#### 2- [Video de apresentação do projeto Snake Game via driva](https://drive.google.com/file/d/1fe1ZLpCYtBkYAehQR8rUQHgC0r88DX8v/view?usp=sharing)
+#### 2- [Video de apresentação do projeto Snake Game via drive](https://drive.google.com/file/d/1fe1ZLpCYtBkYAehQR8rUQHgC0r88DX8v/view?usp=sharing)
 
 
 ## Instalação 
